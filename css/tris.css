@@ -136,30 +136,55 @@ main{
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    filter: drop-shadow(3px 4px 0 rgba(0, 0, 0, 0.6));
 }
 
-#table > div > div , .pl > div > img{
+.card {
+    display: flex;
+    width: 27.5%;
+    height: 82.5%;
+    filter: drop-shadow(3px 4px 0 rgba(0, 0, 0, 0.6));
+    perspective: 1000px;
+}
+
+.card > div{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 27.5%;
-    height: 82.5%;
+    width: 100%;
+    height: 100%;
     box-sizing: border-box;
     border: 4px #ffffff outset;
     border-radius: 15px;
     background-color: #ffffff;
     transition: transform 0.5s, background-color 0.2s;
+    transform-style: preserve-3d;
     cursor: pointer;
 }
 
-#table > div > div:active{
+.scopri{
+    transform: rotateY(180deg);
+}
+
+.card > div:active{
     border-style: inset;
     transform: scale(95%);
 }
 
-#table > div > div:hover{
+.card > .scopri:active{
+    border-style: inset;
+    transform: scale(95%) rotateY(180deg);
+}
+
+.card > div:not(.scopri):hover{
     background-color: #cccccc;
+}
+
+.card > div > div {
+    width: 90%;
+    height: 90%;
+    background-size: cover;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
 }
 
 #menu{
