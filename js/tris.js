@@ -1,15 +1,21 @@
 let table = document.getElementById("table");
+let headerName = document.querySelectorAll("header > div > div");
+let menu = document.getElementById("menu");
+
+let param = new URLSearchParams(window.location.search);
+let pl = [param.get("pl1"), param.get("pl2")];
+
+headerName[0].textContent = pl[0];
+headerName[1].textContent = pl[1];
 
 let turno = 0, gioacate = 0;
-let canIclick = true;
 let cells = [[], [], []];
+let canIclick = true;
 
 for (let i = 0; i < 3; i++) {
     let row = document.createElement("div");
 
     for (let j = 0; j < 3; j++) {
-        const arrInd = i * 3 + j;
-
         let col = document.createElement("div");
 
         col.className = "card";
@@ -19,6 +25,8 @@ for (let i = 0; i < 3; i++) {
 
         col.addEventListener("click", function () {
             if (!this.firstChild.classList.contains("scopri") && canIclick) {
+                headerName[0].parentElement.className = "turno" + (turno + 1);
+
                 gioacate++;
 
                 this.firstChild.className = "scopri";
@@ -32,8 +40,36 @@ for (let i = 0; i < 3; i++) {
                     sign + ".png)";
 
                 if (gioacate > 4) {
-                    let c = win(sign);
-                    alert(c)
+                    let winMsg = win(sign);
+
+                    if (winMsg != "") {
+                        canIclick = false;
+
+                        menu.querySelector("b").textContent = "Ha vinto " +
+                            pl[turno] + " " + winMsg;
+
+                        menu.style.top = "8vh";
+
+                        menu.querySelector("#play").onclick = () => {
+                            if (confirm("Volete rigiocare?")) {
+                                menu.style.top = "";
+
+                                for (const card of document.querySelectorAll(".scopri"))
+                                    card.className = "";
+
+                                canIclick = true;
+                                turno ^= 1;
+                            }
+                        };
+
+                        menu.querySelector("#close").onclick = () => {
+                            if (confirm("Volete chiudere?"))
+                                close();
+                        };
+
+                        for (let i = 0; i < 3; i++)
+                            cells[i] = ["", "", ""];
+                    }
                 }
 
                 turno ^= 1;
@@ -52,7 +88,6 @@ function win(sign) {
 
     //righe
     while (i < 3 && j < 3) {
-
         j = 0;
 
         //Colonne
@@ -66,7 +101,6 @@ function win(sign) {
         i = 0;
 
         while (i < 3 && j < 3) {
-
             j = 0;
 
             //Colonne
@@ -91,13 +125,13 @@ function win(sign) {
                     i++;
 
                 if (i == 3)
-                    win = "Ha vinto " + sign + " in diagonale secondaria";
+                    win = "in diagonale secondaria";
 
-            } else win = "Ha vinto " + sign + " in diagonale principale";
+            } else win = "in diagonale principale";
 
-        } else win = "Ha vinto " + sign + " in colonna";
+        } else win = "in colonna";
 
-    } else win = "Ha vinto " + sign + " in riga";
+    } else win = "in riga";
 
     return win;
 }

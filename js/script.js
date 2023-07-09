@@ -13,11 +13,5 @@ document.getElementById("table").onsubmit = (e) => {
     } else if (pl1.value == pl2.value) {
         e.preventDefault();
         alert("Inserite nomi diversi!");
-
-    } else {
-        localStorage.memory = JSON.stringify({
-            pl1: pl1.value,
-            pl2: pl2.value,
-        });
     }
 }
