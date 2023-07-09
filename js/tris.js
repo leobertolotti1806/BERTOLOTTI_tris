@@ -28,14 +28,12 @@ for (let i = 0; i < 3; i++) {
 
                 cells[i][j] = sign;
 
-                divImg.style.backgroundImage = "url(./img/" + 
-                        sign + ".png)";
+                divImg.style.backgroundImage = "url(./img/" +
+                    sign + ".png)";
 
                 if (gioacate > 4) {
                     let c = win(sign);
-                    if (c != "") {
-                        alert(c)
-                    }
+                    alert(c)
                 }
 
                 turno ^= 1;
@@ -50,46 +48,56 @@ for (let i = 0; i < 3; i++) {
 
 function win(sign) {
     let win = "";
-    let i = 0 , j = 0;
+    let i = 0, j = 0;
 
     //righe
-    while (i < 3 && cells[i].some(c => c != sign))
-        i++;
+    while (i < 3 && j < 3) {
 
-    if (i == 3) {
+        j = 0;
+
+        //Colonne
+        while (j < 3 && cells[i][j] == sign)
+            j++;
+
+        i++;
+    }
+
+    if (j < 3) {
         i = 0;
 
         while (i < 3 && j < 3) {
-            
+
             j = 0;
 
-            while (j < 3 && cells[i][j] != sign) {
+            //Colonne
+            while (j < 3 && cells[j][i] == sign)
                 j++;
-            }
 
             i++;
         }
 
-        if (j == 3) {
+        if (j < 3) {
             i = 0;
 
-            while (i < 3 && cells[i][i] != sign)
+            //Diagonale
+            while (i < 3 && cells[i][i] == sign)
                 i++;
 
-            if (i == 3) {
+            if (i < 3) {
                 i = 0;
 
-                while (i < 3 && cells[i][3 - i]) 
+                //Diagonale
+                while (i < 3 && cells[i][2 - i] == sign)
                     i++;
 
-                if (i < 3)
-                    win = "Ha vinto " + sign + " in diagonale";
-                    
-            } else win = "Ha vinto " + sign + " in diagonale";
+                if (i == 3)
+                    win = "Ha vinto " + sign + " in diagonale secondaria";
 
-        } else win = "Ha vinto " + sign + " in colonna " + (j +1);
+            } else win = "Ha vinto " + sign + " in diagonale principale";
 
-    } else win = "Ha vinto " + sign + " in riga " + (i +1);
+        } else win = "Ha vinto " + sign + " in colonna";
+
+    } else win = "Ha vinto " + sign + " in riga";
 
     return win;
 }
